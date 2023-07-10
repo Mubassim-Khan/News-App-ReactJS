@@ -96,17 +96,13 @@ export default class NewsSection extends Component {
       <div className='container my-3'>
         <h2>MAK News - Top Headlines</h2>
         <div className="row">
-          <div className="col-md-4">
-            <NewsItem title="Title" description="This is a detail" newsURL="To be done" imgURL="https://talksport.com/wp-content/uploads/sites/5/2023/07/PM-TALKSPORT-Blog-8th-July-AM.jpg?strip=all&quality=100&w=1500&h=1000&crop=1" />
-          </div>
 
-          <div className="col-md-4">
-            <NewsItem title="Title" description="This is a detail" />
+        {this.state.articles.map((element)=>{
+          return <div className="col-md-4" key={element.url}>
+            <NewsItem title={element.title} description={element.description.slice(0, 100)} newsURL={element.url} imgURL={element.urlToImage} />
           </div>
+        })}
 
-          <div className="col-md-4">
-            <NewsItem title="Title" description="This is a detail" />
-          </div>
         </div>
       </div>
     )

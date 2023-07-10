@@ -8,8 +8,8 @@ export default class NewsItem extends Component {
         <img src={imgURL} className="card-img-top" alt="image" />
         <div className="card-body">
           <h5 className="card-title">{title}</h5>
-          <p className="card-text">{description}</p>
-          <a href="/newsdetails" className="btn btn-sm btn-primary">Read More</a>
+          <p className="card-text">{description}...</p>
+          <a href={newsURL} className="btn btn-sm btn-primary">Read More</a>
         </div>
       </div>
     )
