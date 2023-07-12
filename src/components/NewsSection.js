@@ -7,17 +7,46 @@ export default class NewsSection extends Component {
     super();
     this.state = {
       articles: [],
-      loading: false
+      loading: false,
+      page: 1
     }
   }
 
   async componentDidMount(){
-    let url = "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=66d2128a876d4de595fac26a02f73a16";
+    let url = "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=66d2128a876d4de595fac26a02f73a16&page=1&pageSize=9";
     let data = await fetch(url);
     let parsedData = await data.json();
-    this.setState({articles: parsedData.articles});
+    this.setState({
+      articles: parsedData.articles,
+      totalResults: parsedData.totalResults
+    });
     console.log(parsedData)
   }
+
+  prevClick = async() => {
+      let url = `https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=66d2128a876d4de595fac26a02f73a16&page=${this.state.page - 1}&pageSize=9`;
+      let data = await fetch(url);
+      let parsedData = await data.json();
+      this.setState({
+        page: this.state.page - 1,
+        articles: parsedData.articles
+      })
+  }
+
+  nextClick = async() => {
+    if(this.state.page + 1 > Math.ceil(this.state.totalResults/9)){
+
+    }
+    else{
+    let url = `https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=66d2128a876d4de595fac26a02f73a16&page=${this.state.page + 1}&pageSize=9`;
+    let data = await fetch(url);
+    let parsedData = await data.json();
+    this.setState({
+      page: this.state.page + 1,
+      articles: parsedData.articles
+    })
+  }
+}
 
   render() {
     return (
@@ -32,6 +61,12 @@ export default class NewsSection extends Component {
         })}
 
         </div>
+
+        <div className="container d-flex justify-content-between">
+          <button disabled={this.state.page <= 1} className="btn btn-dark" onClick={this.prevClick}>&larr; Previous</button>
+          <button className="btn btn-dark" onClick={this.nextClick}>Next &rarr;</button>
+        </div>
+
       </div>
     )
   }
