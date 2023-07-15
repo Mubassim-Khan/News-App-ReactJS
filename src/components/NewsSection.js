@@ -72,7 +72,7 @@ export default class NewsSection extends Component {
   render() {
     return (
       <div className='container my-3'>
-        <h1 className="text-center">MAK News - Top Headlines</h1>
+        <h1 className="text-center" style={{margin: "30px 0px"}} >MAK News - Top Headlines</h1>
         {this.state.loading && <Spinner/>}
         <div className="row">
 
