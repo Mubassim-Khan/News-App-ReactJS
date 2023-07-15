@@ -23,13 +23,12 @@ export default class NewsSection extends Component {
       articles: [],
       loading: false,
       page: 1
-    } 
+    }
   }
 
-  async componentDidMount(){
-    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=66d2128a876d4de595fac26a02f73a16&page=1&pageSize=${this.props.pageSize}`;
-    this.setState({loading: true});
-
+  async updateNewsSection() {
+    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=66d2128a876d4de595fac26a02f73a16&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+    this.setState({ loading: true });
     let data = await fetch(url);
     let parsedData = await data.json();
     this.setState({
@@ -40,53 +39,38 @@ export default class NewsSection extends Component {
     console.log(parsedData)
   }
 
-  prevClick = async() => {
-      let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=business&${this.props.category}&apiKey=66d2128a876d4de595fac26a02f73a16&page=${this.state.page - 1}&pageSize=${this.props.pageSize}`;
-      this.setState({loading: true});
-
-      let data = await fetch(url);
-      let parsedData = await data.json();
-      this.setState({
-        page: this.state.page - 1,
-        articles: parsedData.articles,
-        loading: false
-      })
+  async componentDidMount() {
+    this.updateNewsSection();
   }
 
-  nextClick = async() => {
-    if(!(this.state.page + 1 > Math.ceil(this.state.totalResults/this.props.pageSize))){
-
-    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=business&${this.props.category}&apiKey=66d2128a876d4de595fac26a02f73a16&page=${this.state.page + 1}&pageSize=${this.props.pageSize}`;
-    this.setState({loading: true});
-
-    let data = await fetch(url);
-    let parsedData = await data.json();
-    this.setState({
-      page: this.state.page + 1,
-      articles: parsedData.articles,
-      loading: false
-    })
+  prevClick = async () => {
+    await this.setState({ page: this.state.page - 1 })
+    this.updateNewsSection();
   }
-}
+
+  nextClick = async () => {
+    await this.setState({ page: this.state.page + 1 })
+    this.updateNewsSection();
+  }
 
   render() {
     return (
       <div className='container my-3'>
-        <h1 className="text-center" style={{margin: "30px 0px"}} >MAK News - Top Headlines</h1>
-        {this.state.loading && <Spinner/>}
+        <h1 className="text-center" style={{ margin: "30px 0px" }} >MAK News - Top Headlines</h1>
+        {this.state.loading && <Spinner />}
         <div className="row">
 
-        {!this.state.loading && this.state.articles.map((element)=>{
-          return <div className="col-md-4" key={element.url}>
-            <NewsItem title={element.title} description={element.description} newsURL={element.url} imgURL={element.urlToImage} author={element.author} datePublished={element.publishedAt} newsSource={element.source.name}/>
-          </div>
-        })}
+          {!this.state.loading && this.state.articles.map((element) => {
+            return <div className="col-md-4" key={element.url}>
+              <NewsItem title={element.title} description={element.description} newsURL={element.url} imgURL={element.urlToImage} author={element.author} datePublished={element.publishedAt} newsSource={element.source.name} />
+            </div>
+          })}
 
         </div>
 
         <div className="container d-flex justify-content-between my-3">
           <button disabled={this.state.page <= 1} className="btn btn-dark" onClick={this.prevClick}>&larr; Previous</button>
-          <button disabled={this.state.page + 1 > Math.ceil(this.state.totalResults/this.props.pageSize)} className="btn btn-dark" onClick={this.nextClick}>Next &rarr;</button>
+          <button disabled={this.state.page + 1 > Math.ceil(this.state.totalResults / this.props.pageSize)} className="btn btn-dark" onClick={this.nextClick}>Next &rarr;</button>
         </div>
 
       </div>
