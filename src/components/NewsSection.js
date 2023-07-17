@@ -17,13 +17,18 @@ export default class NewsSection extends Component {
     category: PropTypes.string.isRequired
   }
 
-  constructor() {
-    super();
+  firstLetterCap = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  constructor(props) {
+    super(props);
     this.state = {
       articles: [],
       loading: false,
       page: 1
     }
+    document.title = `MAK News - ${this.firstLetterCap(this.props.category)}`;
   }
 
   async updateNewsSection() {
@@ -56,7 +61,7 @@ export default class NewsSection extends Component {
   render() {
     return (
       <div className='container my-3'>
-        <h1 className="text-center" style={{ margin: "30px 0px" }} >MAK News - Top Headlines</h1>
+        <h1 className="text-center" style={{ margin: "30px 0px" }} >MAK News - Top {this.firstLetterCap(this.props.category)} Headlines</h1>
         {this.state.loading && <Spinner />}
         <div className="row">
 
