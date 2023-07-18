@@ -34,6 +34,7 @@ export default class NewsSection extends Component {
 
   async updateNewsSection() {
     let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=66d2128a876d4de595fac26a02f73a16&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+    this.setState({ loading: true });
     let data = await fetch(url);
     let parsedData = await data.json();
     this.setState({
@@ -49,19 +50,18 @@ export default class NewsSection extends Component {
   }
 
   prevClick = async () => {
-    await this.setState({ page: this.state.page - 1 })
+    this.setState({ page: this.state.page - 1 })
     this.updateNewsSection();
   }
 
   nextClick = async () => {
-    await this.setState({ page: this.state.page + 1 })
+    this.setState({ page: this.state.page + 1 })
     this.updateNewsSection();
   }
 
-  fetchData = async() => {
-    this.setState({page: this.state.page + 1})
+  fetchData = async () => {
+    this.setState({page: this.state.page + 1 })
     let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=66d2128a876d4de595fac26a02f73a16&page=${this.state.page}&pageSize=${this.props.pageSize}`;
-    this.setState({ loading: true });
     let data = await fetch(url);
     let parsedData = await data.json();
     this.setState({
@@ -74,12 +74,12 @@ export default class NewsSection extends Component {
     return (
       <>
         <h1 className="text-center" style={{ margin: "30px 0px" }} >MAK News - Top {this.firstLetterCap(this.props.category)} Headlines</h1>
-        
+        {this.state.loading && <Spinner/>}
         <InfiniteScroll
-          dataLength={this.state.articles.length} 
+          dataLength={this.state.articles.length}
           next={this.fetchData}
           hasMore={this.state.articles.length !== this.state.totalResults}
-          loader={<Spinner/>}
+          loader={<Spinner />}
           endMessage={
             <p style={{ textAlign: 'center' }}>
               <b>You have reached end of page</b>
@@ -87,17 +87,15 @@ export default class NewsSection extends Component {
           }
         >
 
-        <div className="container my-3">
-
-        <div className="row">
-          {this.state.articles.map((element) => {
-            return <div className="col-md-4" key={element.url}>
-              <NewsItem title={element.title} description={element.description} newsURL={element.url} imgURL={element.urlToImage} author={element.author} datePublished={element.publishedAt} newsSource={element.source.name} />
+          <div className="container my-3">
+            <div className="row">
+              {this.state.articles.map((element) => {
+                return <div className="col-md-4" key={element.url}>
+                  <NewsItem title={element.title} description={element.description} newsURL={element.url} imgURL={element.urlToImage} author={element.author} datePublished={element.publishedAt} newsSource={element.source.name} />
+                </div>
+              })}
             </div>
-          })}
-
-        </div>
-        </div>
+          </div>
 
         </InfiniteScroll>
 
