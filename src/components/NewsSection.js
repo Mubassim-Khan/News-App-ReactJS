@@ -34,7 +34,7 @@ export default class NewsSection extends Component {
 
   async updateNewsSection() {
     this.props.setProgress(10);
-    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=66d2128a876d4de595fac26a02f73a16&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
     this.setState({ loading: true });
     let data = await fetch(url);
     this.props.setProgress(30);
@@ -46,7 +46,6 @@ export default class NewsSection extends Component {
       loading: false
     });
     this.props.setProgress(100);
-    console.log(parsedData)
   }
 
   async componentDidMount() {
@@ -65,7 +64,7 @@ export default class NewsSection extends Component {
 
   fetchData = async () => {
     this.setState({ page: this.state.page + 1 })
-    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=66d2128a876d4de595fac26a02f73a16&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
     let data = await fetch(url);
     let parsedData = await data.json();
     this.setState({
@@ -94,7 +93,7 @@ export default class NewsSection extends Component {
           <div className="container my-3">
             <div className="row">
               {this.state.articles.map((element) => {
-                return <div className="col-md-4" key={element.url}>
+                return <div className="col-md-4" key={element.id}>
                   <NewsItem title={element.title} description={element.description} newsURL={element.url} imgURL={element.urlToImage} author={element.author} datePublished={element.publishedAt} newsSource={element.source.name} />
                 </div>
               })}
@@ -109,7 +108,6 @@ export default class NewsSection extends Component {
         </div> */}
 
       </>
-
     )
   }
 }
