@@ -17,7 +17,15 @@ You can also view the name of author, source, date & time of news when published
 
 #### Note: User can select a category from above categories or all categories at once by clicking on "All Categories".
 
-#
+## Contact
+
+If you have any questions, suggestions, or feedback, you can reach out to the project maintainer:
+
+- LinkedIn: [Mubassim Ahmed Khan](https://www.linkedin.com/in/mubassim-ahmed-khan/)
+- Email: [mubassimkhan@gmail.com](mailto:mubassimkhan@gmail.com)
+
+---
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
